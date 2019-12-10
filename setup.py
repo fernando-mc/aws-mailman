@@ -8,7 +8,7 @@ setup(
     author = 'Fernando Medina Corey',
     author_email = 'fernandomc.sea@gmail.com',
     url = 'https://github.com/fernando-mc/',
-    download_url = 'https://github.com/fernando-mc/archive/v_01.tar.gz',    # I explain this later on
+    download_url = 'https://github.com/fernando-mc/aws-mailman/archive/v0.2.2.tar.gz',
     keywords = ['AWS', 'Route53', 'Domains'],
     entry_points={
         'console_scripts': [
