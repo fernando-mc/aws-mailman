@@ -1,15 +1,20 @@
 from distutils.core import setup
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
-    name = 'awsmailman',
-    packages = ['awsmailman'],
-    version = '0.2.2',
+    name='awsmailman',
+    packages=['awsmailman'],
+    version='0.2.3',
     license='MIT',
-    description = 'A utility for updating domain registrant information in Amazon Route 53',
-    author = 'Fernando Medina Corey',
-    author_email = 'fernandomc.sea@gmail.com',
-    url = 'https://github.com/fernando-mc/',
-    download_url = 'https://github.com/fernando-mc/aws-mailman/archive/v0.2.2.tar.gz',
-    keywords = ['AWS', 'Route53', 'Domains'],
+    description='A utility for updating domain registrant information in Amazon Route 53',
+    long_description=long_description,
+    author='Fernando Medina Corey',
+    author_email='fernandomc.sea@gmail.com',
+    url='https://github.com/fernando-mc/',
+    download_url='https://github.com/fernando-mc/aws-mailman/archive/v0.2.3.tar.gz',
+    keywords=['AWS', 'Route53', 'Domains'],
     entry_points={
         'console_scripts': [
             'awsmailman=awsmailman.mailman:main',
@@ -20,7 +25,7 @@ setup(
         'bullet',
     ],
     classifiers=[
-        'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
