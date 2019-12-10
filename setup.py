@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name = 'awsmailman',
     packages = ['awsmailman'],
-    version = '0.2.1',
+    version = '0.2.2',
     license='MIT',
     description = 'A utility for updating domain registrant information in Amazon Route 53',
     author = 'Fernando Medina Corey',
