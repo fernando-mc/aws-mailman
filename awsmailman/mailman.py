@@ -100,6 +100,7 @@ def main():
     domains = get_user_picked_domains_to_change()
     details = get_contact_details()
     update_domains(domains, details)
+    print("Domain contact details updated!")
 
 if __name__ == "__main__":
     main()
