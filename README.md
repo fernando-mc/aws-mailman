@@ -7,6 +7,10 @@ A utility for updating domain registrant information in Amazon Route 53.
 - You must have the AWS CLI Installed
 - You must have AWS credentials with the appropriate permissions setup locally
 
+## Installation
+
+`pip install awsmailmain`
+
 ## Usage
 
 Run `awsmailman` and follow the prompts.
