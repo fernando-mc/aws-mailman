@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name='awsmailman',
     packages=['awsmailman'],
-    version='0.3.1',
+    version='0.3.2',
     license='MIT',
     description='A utility for updating domain registrant information in Amazon Route 53',
     long_description=long_description,
