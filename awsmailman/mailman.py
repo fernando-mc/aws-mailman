@@ -23,7 +23,7 @@ def get_user_picked_domains_to_change():
     return domains
 
 
-def get_contact_details():
+def get_full_contact_details():
     contact_info = VerticalPrompt(
         [
             Input("First Name: "),
@@ -71,6 +71,31 @@ def get_contact_details():
     return details
 
 
+def get_address_change_details():
+    address_info = VerticalPrompt(
+        [
+            Input("Address Line 1: "),
+            Input("Address Line 2: "),
+            Input("City: "),
+            Input("State: "),
+            Input(
+                "Two Digit Country Code (e.g. US, GB, JP): ",
+                pattern="^[A-Z]{2}$"),
+            Input("Zip Code: "),
+        ],
+        spacing = 1
+    ).launch()
+    details = {
+        'AddressLine1': address_info[0][1],
+        'AddressLine2': address_info[1][1],
+        'City': address_info[2][1],
+        'State': address_info[3][1],
+        'CountryCode': address_info[4][1],
+        'ZipCode': address_info[5][1],
+    }
+    return details
+
+
 def update_domains(selected_domains, contact_details):
     # Show the domains and details and have the user confirm
     print("Your contact information will be updated to the following: ")
@@ -88,19 +113,59 @@ def update_domains(selected_domains, contact_details):
         print("Ok! Go ahead and try again.")
         return
     for domain in selected_domains:
-        result = r53domains.update_domain_contact(
+        r53domains.update_domain_contact(
             DomainName=domain,
             AdminContact=contact_details,
             RegistrantContact=contact_details,
             TechContact=contact_details
         )
 
+def is_address_only_update():
+    address_only = VerticalPrompt(
+        [
+            Bullet(
+                prompt = "Would you like to update domain address(es) to the same new address?", 
+                choices = ['YES', 'NO'],
+                **styles.Ocean
+            ),
+        ]
+    ).launch()
+    if address_only[0][1] == "YES":
+        return True
+    else:
+        return False
+
+
+def update_domain_addresses(domains):
+    change_details = get_address_change_details()
+    fields = ['AddressLine1', 'AddressLine2', 'City', 'State', 'CountryCode', 'ZipCode']
+    for domain in domains:
+        detail = r53domains.get_domain_detail(DomainName=domain)
+        admin_contact = detail['AdminContact']
+        registrant_contact = detail['RegistrantContact']
+        tech_contact = detail['TechContact']
+        for f in fields:
+            admin_contact[f] = change_details[f]
+            registrant_contact[f] = change_details[f]
+            tech_contact[f] = change_details[f]
+        r53domains.update_domain_contact(
+            DomainName=domain,
+            AdminContact=admin_contact,
+            RegistrantContact=registrant_contact,
+            TechContact=tech_contact
+        )
 
 def main():
     domains = get_user_picked_domains_to_change()
-    details = get_contact_details()
-    update_domains(domains, details)
-    print("Domain contact details updated!")
+    if is_address_only_update():
+        print("Reviewing domains...")
+        print("Collecting details...")
+        update_domain_addresses(domains)
+        print("Address(es) Updated!")
+    else:
+        details = get_full_contact_details()
+        update_domains(domains, details)
+        print("Domain contact details updated!")
 
 if __name__ == "__main__":
     main()
