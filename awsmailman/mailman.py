@@ -1,4 +1,5 @@
 import boto3
+import time
 
 from pprint import pprint
 from bullet import Bullet, Input, styles, VerticalPrompt, Check, YesNo
@@ -113,12 +114,14 @@ def update_domains(selected_domains, contact_details):
         print("Ok! Go ahead and try again.")
         return
     for domain in selected_domains:
+        print(f"Updating {domain}")
         r53domains.update_domain_contact(
             DomainName=domain,
             AdminContact=contact_details,
             RegistrantContact=contact_details,
             TechContact=contact_details
         )
+        time.sleep(4)
 
 def is_address_only_update():
     address_only = VerticalPrompt(
@@ -148,12 +151,14 @@ def update_domain_addresses(domains):
             admin_contact[f] = change_details[f]
             registrant_contact[f] = change_details[f]
             tech_contact[f] = change_details[f]
+        print(f"Updating {domain}")
         r53domains.update_domain_contact(
             DomainName=domain,
             AdminContact=admin_contact,
             RegistrantContact=registrant_contact,
             TechContact=tech_contact
         )
+        time.sleep(4)
 
 def main():
     domains = get_user_picked_domains_to_change()
